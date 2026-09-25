@@ -1,0 +1,6 @@
+# Real HCP-YA reference data and Policlinico HC/PATIENT external data.
+extends: manuscript.yaml
+run_name: hcp_ya_policlinico
+synthetic: false
+data_dir: ../../data
+output_dir: outputs/hcp_ya_policlinico

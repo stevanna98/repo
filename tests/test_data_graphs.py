@@ -57,3 +57,28 @@ def test_379_synthetic_data_and_strict_alignment(tmp_path):
     with pytest.raises(ValueError, match="metadata order"):
         load_data(tmp_path / "dataset", cfg)
 
+
+def test_unspecified_patient_subtype_is_external_only(tmp_path):
+    cfg = load_config(Path(__file__).parents[1] / "configs/smoke_test.yaml")
+    cfg["generation"].update(reference_n=2, external_hc=1, external_bd=1, external_mdd=1)
+    dataset = tmp_path / "dataset"
+    generate(cfg, dataset)
+    meta = pd.read_csv(dataset / "participants.csv")
+    patients = (meta.cohort == "external") & (meta.group != "HC")
+    meta.loc[patients, "group"] = "PATIENT"
+    meta.to_csv(dataset / "participants.csv", index=False)
+    reference, external, _, _ = load_data(dataset, cfg)
+    assert reference.groups.tolist() == ["HC", "HC"]
+    assert external.groups.tolist() == ["HC", "PATIENT", "PATIENT"]
+    assert not np.isin(external.groups, ["BD", "MDD"]).any()
+
+    invalid = meta.copy()
+    invalid.loc[invalid.cohort == "reference", "group"] = "PATIENT"
+    invalid.to_csv(dataset / "participants.csv", index=False)
+    with pytest.raises(ValueError, match="Invalid group labels for reference"):
+        load_data(dataset, cfg)
+
+    meta.loc[patients, "group"] = "PZ"
+    meta.to_csv(dataset / "participants.csv", index=False)
+    with pytest.raises(ValueError, match="Invalid group labels for external"):
+        load_data(dataset, cfg)

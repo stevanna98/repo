@@ -6,8 +6,12 @@ Supply these five files in the configured `data_dir`:
    and `roi_ids` [379] Unicode strings.
 2. `external.npz`: the same fields, with the identical ROI order.
 3. `participants.csv`: `subject_id,cohort,sex,group`. Cohort must be `reference`
-   or `external`; sex `F` or `M`; reference group `HC`; external group `HC`, `BD`
-   or `MDD`. Optional extra columns are retained in the source but not modeled.
+   or `external`; sex `F` or `M`; reference group `HC`; external group `HC`, `BD`,
+   `MDD` or `PATIENT`. Use `PATIENT` when patient status is known but diagnostic
+   subtype is unavailable. These participants enter pooled patient-versus-HC
+   analyses, but not BD/MDD subgroup analyses; subgroup tests with insufficient
+   observations are reported as untestable. Optional extra columns are retained
+   in the source but not modeled.
 4. `rois.csv`: `index,roi_id,label,network`. Indices must be 0..378 in matrix-axis
    order. ROI IDs must be unique. The provided reference mapping must contain
    13 groups; no real atlas mapping is invented by this implementation.

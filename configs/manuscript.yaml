@@ -17,7 +17,7 @@ model:
 cv:
   outer: 5
   inner: 3
-  candidates: 5
+  candidates: 20
 search:
   heads: [1, 2, 4, 8]
   layers: [1, 2, 3, 4]

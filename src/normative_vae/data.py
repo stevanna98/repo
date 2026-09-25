@@ -70,7 +70,8 @@ def load_data(directory, cfg):
             raise ValueError(f"{name} metadata order/IDs differ from array IDs; align explicitly")
         if not np.array_equal(roi_ids, rois.roi_id.to_numpy()):
             raise ValueError(f"{name} ROI axes do not match ordered mapping")
-        if not set(rows.group).issubset({"HC"} if name == "reference" else {"HC", "BD", "MDD"}):
+        # PATIENT preserves a known patient label when diagnostic subtype is unavailable.
+        if not set(rows.group).issubset({"HC"} if name == "reference" else {"HC", "BD", "MDD", "PATIENT"}):
             raise ValueError(f"Invalid group labels for {name}")
         report[name] = validate_fc(fc, n, **{ "tolerance": cfg["validation"]["correlation_tolerance"], "psd_tolerance": cfg["validation"]["psd_tolerance"]})
         cohorts[name] = Cohort(fc.astype(np.float32), ids, (rows.sex.to_numpy() == "M").astype(np.float32), rows.group.to_numpy(), name)

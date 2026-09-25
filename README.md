@@ -75,10 +75,18 @@ generator at real data. Source matrices are never repaired or overwritten.
 python run.py all --config configs/my-study.yaml --allow-full-run
 ```
 
-Do not execute this example until data and compute resources are ready. Full CV
+Do not execute this example until data and compute resources are ready. The default
+manuscript configuration uses 20 search candidates per condition and outer fold. Its CV
 requires **2,700 candidate fits and 45 outer refits**, plus 135 inner and 45 final
 probe fits. `--allow-full-run` is required for real-data training or more than 100
 candidate fits. No distributed scheduler or automatic cloud execution is used.
+
+`cv.candidates` accepts a positive integer while real-data runs retain five outer
+and three inner folds. `configs/hcp_ya_policlinico.yaml` uses **2 candidates**:
+**270 candidate fits and 45 outer refits**. This explores fewer hyperparameter
+settings; refit and analysis work is unchanged. Its output is
+`outputs/hcp_ya_policlinico_candidates2`. Use a new output directory whenever
+changing the candidate budget; checkpoints from a different budget cannot be resumed.
 
 ## Outputs
 

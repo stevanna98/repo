@@ -101,12 +101,16 @@ def test_outer_test_never_passed_to_training(tmp_path, monkeypatch):
         assert [r["split"] for r in rows] == expected
 
 
-def test_full_training_requires_opt_in():
+@pytest.mark.parametrize("config_name,expected_fits", [
+    ("manuscript.yaml", 2700),
+    ("hcp_ya_policlinico.yaml", 270),
+])
+def test_full_training_requires_opt_in(config_name, expected_fits):
     import subprocess
     import sys
     root = Path(__file__).parents[1]
-    result = subprocess.run([sys.executable, str(root / "run.py"), "all", "--config", "configs/manuscript.yaml"], capture_output=True, text=True)
-    assert result.returncode == 2 and "2700 candidate fits" in result.stderr
+    result = subprocess.run([sys.executable, str(root / "run.py"), "all", "--config", f"configs/{config_name}"], capture_output=True, text=True)
+    assert result.returncode == 2 and f"{expected_fits} candidate fits" in result.stderr
     assert "--allow-full-run" in result.stderr
 
 

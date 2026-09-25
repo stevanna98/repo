@@ -32,8 +32,9 @@ def validate_config(c):
         raise ValueError("All three prescribed densities are required")
     if any(c["model"]["hidden"] % h for h in c["search"]["heads"]):
         raise ValueError("Each head count must divide the hidden width")
-    if min(c["cv"]["outer"], c["cv"]["inner"]) < 2 or c["cv"]["candidates"] < 1:
+    if min(c["cv"]["outer"], c["cv"]["inner"]) < 2:
         raise ValueError("Invalid CV sizes")
-    if not c["synthetic"] and c["cv"] != {"outer": 5, "inner": 3, "candidates": 20}:
-        raise ValueError("Real-data protocol requires the approved 5/3/20 design")
-
+    if type(c["cv"]["candidates"]) is not int or c["cv"]["candidates"] < 1:
+        raise ValueError("cv.candidates must be a positive integer")
+    if not c["synthetic"] and (c["cv"]["outer"], c["cv"]["inner"]) != (5, 3):
+        raise ValueError("Real-data protocol requires 5 outer and 3 inner folds")

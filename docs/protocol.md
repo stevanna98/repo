@@ -108,9 +108,11 @@ outer development set has its own shared stratified inner folds. Only HC in the
 reference cohort can enter VAE training. This implementation accepts one matrix
 per unique subject and makes no claim about familial independence.
 
-Random search draws 20 unique points uniformly without replacement from the
-finite Cartesian product of applicable search settings, separately per
-architecture/density/outer fold. Unsupported parameters are not sampled. Every
+Random search draws `cv.candidates` unique points uniformly without replacement
+from the finite Cartesian product of applicable search settings, separately per
+architecture/density/outer fold. The manuscript configuration defaults to 20;
+the HCP-YA/Policlinico configuration uses the user-selected reduced budget of 2.
+Real-data runs retain five outer and three inner folds. Unsupported parameters are not sampled. Every
 candidate uses all three inner folds; failures raise rather than allowing
 partial-fold candidate rankings. Validation weights participants equally.
 

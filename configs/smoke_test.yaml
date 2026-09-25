@@ -1,0 +1,31 @@
+extends: manuscript.yaml
+run_name: SYNTHETIC_SMOKE
+synthetic: true
+data_dir: data/generated/smoke
+output_dir: outputs/smoke
+cv:
+  outer: 2
+  inner: 2
+  candidates: 1
+search:
+  heads: [2]
+  layers: [1]
+  lr: [0.001]
+  weight_decay: [0.0001]
+  dropout: [0.1]
+training:
+  max_epochs: 2
+  batch_size: 4
+probe:
+  max_epochs: 2
+  batch_size: 4
+clustering:
+  tsne_iterations: 300
+statistics:
+  permutations: 199
+generation:
+  reference_n: 12
+  external_hc: 4
+  external_bd: 2
+  external_mdd: 2
+  timepoints: 420

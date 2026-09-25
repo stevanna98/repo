@@ -1,0 +1,76 @@
+run_name: manuscript
+synthetic: false
+data_dir: /PATH/TO/FC_DATA
+output_dir: outputs/manuscript
+device: auto
+threads: 4
+seed: 42
+n_regions: 379
+architectures: [set, gat, gcn]
+densities: [0.1, 0.2, 0.3]
+model:
+  hidden: 256
+  latent: 64
+  norm_eps: 0.00001
+  gat_slope: 0.2
+  bias: true
+cv:
+  outer: 5
+  inner: 3
+  candidates: 5
+search:
+  heads: [1, 2, 4, 8]
+  layers: [1, 2, 3, 4]
+  lr: [0.0001, 0.0003, 0.001]
+  weight_decay: [0.0, 0.00001, 0.0001, 0.001]
+  dropout: [0.0, 0.1, 0.2, 0.3]
+training:
+  batch_size: 16
+  max_epochs: 700
+  patience: 30
+  min_delta: 0.0001
+  clip_norm: 5.0
+  betas: [0.9, 0.999]
+  adam_eps: 0.00000001
+  pearson_eps: 0.00000001
+probe:
+  width: 16
+  dropout: 0.4
+  lr: 0.0001
+  weight_decay: 0.01
+  batch_size: 8
+  max_epochs: 1500
+  patience: 30
+  min_delta: 0.0001
+clustering:
+  clusters: 13
+  n_init: 50
+  max_iter: 500
+  tol: 0.0001
+  seed: 0
+  tsne_perplexity: 30
+  tsne_init: pca
+  tsne_learning_rate: auto
+  tsne_iterations: 1000
+  tsne_seed: 0
+topology:
+  leiden_runs: 20
+  hub_quantile: 0.9
+  quantile_method: linear
+  tolerance: 0.00000001
+statistics:
+  permutations: 9999
+  min_group_n: 2
+  fdr: 0.05
+  variance_tolerance: 0.00000001
+validation:
+  correlation_tolerance: 0.00001
+  psd_tolerance: 0.0001
+generation:
+  reference_n: 748
+  external_hc: 15
+  external_bd: 7
+  external_mdd: 8
+  timepoints: 500
+  perturbation: 0.25
+

@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "normative-vae"
+version = "0.1.0"
+description = "Reproducible healthy-reference functional-connectivity VAE experiments"
+requires-python = ">=3.10"
+dependencies = ["torch>=2.2,<3", "numpy>=1.26,<3", "scipy>=1.14,<2", "scikit-learn>=1.5,<2", "pandas>=2.2,<3", "PyYAML>=6,<7", "matplotlib>=3.8,<4", "igraph>=0.11,<0.12", "leidenalg>=0.10,<0.11", "threadpoolctl>=3,<4"]
+
+[project.optional-dependencies]
+test = ["pytest>=8,<9"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
